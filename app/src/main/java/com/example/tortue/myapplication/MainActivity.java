@@ -8,22 +8,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-
+    private GameView myGameView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        myGameView = new GameView(this);
+        setContentView(myGameView);
     }
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+// The following call pauses the rendering thread.
+// If your OpenGL application is memory intensive,
+// you should consider de-allocating objects that
+// consume significant memory here.
+        myGameView.onPause();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+// The following call resumes a paused rendering thread.
+// If you de-allocated graphic objects for onPause()
+// this is a good place to re-allocate them.
+        myGameView.onResume();
+    }
 }
